@@ -20,6 +20,8 @@ import javax.swing.Action;
 import javax.swing.ImageIcon;
 import javax.swing.KeyStroke;
 
+import main.java.memoranda.interfaces.IHistoryListener;
+import main.java.memoranda.interfaces.IProject;
 import main.java.memoranda.util.Local;
 /**
  * 
@@ -34,7 +36,7 @@ public class History {
     static Object prev = null;     
     
     public static void add(HistoryItem item) {
-        if (prev != null)   
+        if (prev != null)
             if (item.equals(prev)) return;
         if (p < _list.size() - 1)
             _list.setSize(p + 1);
@@ -99,11 +101,11 @@ public class History {
         return next != null;
     }
 
-    public static void addHistoryListener(HistoryListener hl) {
+    public static void addHistoryListener(IHistoryListener hl) {
         historyListeners.add(hl);
     }
     
-    public static void removeProjectHistory(Project prj) {
+    public static void removeProjectHistory(IProject prj) {
         Vector list = new Vector();
         String id;
         
@@ -132,7 +134,7 @@ public class History {
 
     private static void notifyListeners(HistoryItem n) {
         for (int i = 0; i < historyListeners.size(); i++)            
-                 ((HistoryListener) historyListeners.get(i)).historyWasRolledTo(n);
+                 ((IHistoryListener) historyListeners.get(i)).historyWasRolledTo(n);
     }
 
     public static HistoryBackAction historyBackAction = new HistoryBackAction();
